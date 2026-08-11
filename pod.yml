@@ -12,7 +12,7 @@ metadata:
 spec:
   containers:
   - command:
-    args: 
+    args:
     - while true; do
         echo "nginx"
         sleep 2
