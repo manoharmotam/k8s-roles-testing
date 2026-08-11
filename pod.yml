@@ -1,0 +1,140 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: "2026-08-10T04:52:07Z"
+  generation: 1
+  labels:
+    run: pod
+  name: pod
+  namespace: demo-ns
+  resourceVersion: "9996"
+  uid: 6d6bb086-d365-4808-be5f-fe0c395c3836
+spec:
+  containers:
+  - command:
+    args:
+    - while true; do
+        echo "nginx"
+        sleep 2
+      done
+    image: nginx:1.24
+    imagePullPolicy: IfNotPresent
+    name: pod
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-ghmwr
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  nodeName: dev-cluster-worker
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: default
+  serviceAccountName: default
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - name: kube-api-access-ghmwr
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3607
+          path: token
+      - configMap:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: kube-root-ca.crt
+      - downwardAPI:
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: "2026-08-10T04:52:22Z"
+    observedGeneration: 1
+    status: "True"
+    type: PodReadyToStartContainers
+  - lastProbeTime: null
+    lastTransitionTime: "2026-08-10T04:52:07Z"
+    observedGeneration: 1
+    status: "True"
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: "2026-08-10T04:52:23Z"
+    message: 'containers with unready status: [pod]'
+    observedGeneration: 1
+    reason: ContainersNotReady
+    status: "False"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: "2026-08-10T04:52:23Z"
+    message: 'containers with unready status: [pod]'
+    observedGeneration: 1
+    reason: ContainersNotReady
+    status: "False"
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: "2026-08-10T04:52:07Z"
+    observedGeneration: 1
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - containerID: containerd://d4c55348b02c7d8473df84a16441d351b5d4d7b5023327e16e2fb2260cb9b287
+    image: docker.io/library/nginx:1.24
+    imageID: docker.io/library/nginx@sha256:f6daac2445b0ce70e64d77442ccf62839f3f1b4c24bf6746a857eff014e798c8
+    lastState:
+      terminated:
+        containerID: containerd://d4c55348b02c7d8473df84a16441d351b5d4d7b5023327e16e2fb2260cb9b287
+        exitCode: 0
+        finishedAt: "2026-08-10T04:58:07Z"
+        reason: Completed
+        startedAt: "2026-08-10T04:58:07Z"
+    name: pod
+    ready: false
+    resources: {}
+    restartCount: 6
+    started: false
+    state:
+      waiting:
+        message: back-off 5m0s restarting failed container=pod pod=pod_demo-ns(6d6bb086-d365-4808-be5f-fe0c395c3836)
+        reason: CrashLoopBackOff
+    user:
+      linux:
+        gid: 0
+        supplementalGroups:
+        - 0
+        uid: 0
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-ghmwr
+      readOnly: true
+      recursiveReadOnly: Disabled
+  hostIP: 172.18.0.2
+  hostIPs:
+  - ip: 172.18.0.2
+  observedGeneration: 1
+  phase: Running
+  podIP: 10.244.1.2
+  podIPs:
+  - ip: 10.244.1.2
+  qosClass: BestEffort
+  startTime: "2026-08-10T04:52:07Z"
